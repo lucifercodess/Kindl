@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { useTheme } from '../theme/theme';
+import globalStyles from '../theme/globalStyles';
 import Button from '../components/Button';
 
 const WelcomeScreen = () => {
@@ -15,32 +16,32 @@ const WelcomeScreen = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.primaryWhite }]}>
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
+    <SafeAreaView style={globalStyles.safeArea}>
+      <View style={[globalStyles.content, globalStyles.paddedContainerXXXL, globalStyles.justifyCenter]}>
+        <View style={globalStyles.alignCenter}>
+          <Text style={[globalStyles.h1, globalStyles.textCenter, globalStyles.marginBottomMD]}>
             Your App Name
           </Text>
-          <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
+          <Text style={[globalStyles.textSecondary, globalStyles.textCenter]}>
             Designed to match you with genuine connections
           </Text>
         </View>
 
-        <View style={styles.spacer} />
+        <View style={globalStyles.marginTopXXXL} />
 
-        <View style={styles.buttons}>
+        <View style={[globalStyles.fullWidth, globalStyles.paddingBottomXXXL]}>
           <Button
             title="Continue"
             onPress={handleContinue}
             variant="primary"
-            style={styles.button}
+            style={globalStyles.fullWidth}
           />
-          <View style={{ height: theme.spacing[3] }} />
+          <View style={globalStyles.marginTopMD} />
           <Button
             title="Log In"
             onPress={handleLogin}
             variant="outline"
-            style={styles.button}
+            style={globalStyles.fullWidth}
           />
         </View>
       </View>
@@ -49,39 +50,8 @@ const WelcomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 32,
-    justifyContent: 'center',
-  },
-  header: {
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: '700',
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: '400',
-    textAlign: 'center',
-  },
-  spacer: {
-    flex: 1,
-    minHeight: 100,
-  },
-  buttons: {
-    width: '100%',
-    paddingBottom: 32,
-  },
-  button: {
-    width: '100%',
-  },
+  // Minimal custom styles if needed
+  // Most styles now come from globalStyles
 });
 
 export default WelcomeScreen;
