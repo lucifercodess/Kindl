@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useTheme } from '../theme/theme';
@@ -13,6 +13,7 @@ const Button = ({
 }) => {
   const theme = useTheme();
   const isPrimary = variant === 'primary';
+  const animatableRef = useRef(null);
 
   const buttonStyle = [
     styles.button,
@@ -38,21 +39,21 @@ const Button = ({
 
   const handlePress = () => {
     if (!disabled && !loading && onPress) {
+      // Trigger animation on press
+      if (animatableRef.current) {
+        animatableRef.current.pulse(200);
+      }
       onPress();
     }
   };
 
   return (
-    <Animatable.View
-      animation={disabled ? undefined : 'pulse'}
-      iterationCount={1}
-      duration={200}
-    >
+    <Animatable.View ref={animatableRef}>
       <TouchableOpacity
         style={buttonStyle}
         onPress={handlePress}
         disabled={disabled || loading}
-        activeOpacity={0.8}
+        activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel={title}
         accessibilityState={{ disabled: disabled || loading }}
