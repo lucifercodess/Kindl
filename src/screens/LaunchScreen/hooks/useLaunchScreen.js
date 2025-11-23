@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-// import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 // import { useAuth } from '../../../hooks/useAuth';
 
 /**
@@ -9,31 +9,44 @@ import { useCallback } from 'react';
  * @returns {Object} Handlers and state for LaunchScreen
  */
 export const useLaunchScreen = () => {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   // const { signInWithApple, signInWithGoogle, signInWithPhone } = useAuth();
 
   const handleAppleSignIn = useCallback(() => {
     // TODO: Implement Apple Sign In
     console.log('Sign in with Apple pressed');
-    // await signInWithApple();
-    // navigation.navigate('Onboarding');
-  }, []);
+    // Simulate authentication - show loading then navigate
+    navigation.navigate('Loading');
+    // After loading, navigate to SoftWelcome
+    setTimeout(() => {
+      navigation.navigate('SoftWelcome');
+    }, 2000);
+  }, [navigation]);
 
   const handleGoogleSignIn = useCallback(() => {
     // TODO: Implement Google Sign In
     console.log('Sign in with Google pressed');
-    // await signInWithGoogle();
-    // navigation.navigate('Onboarding');
-  }, []);
+    // Simulate authentication - show loading then navigate
+    navigation.navigate('Loading');
+    // After loading, navigate to SoftWelcome
+    setTimeout(() => {
+      navigation.navigate('SoftWelcome');
+    }, 2000);
+  }, [navigation]);
 
   const handlePhoneSignIn = useCallback(() => {
     // TODO: Implement Phone Sign In
     console.log('Sign in with Phone pressed');
-    // navigation.navigate('PhoneAuth');
-  }, []);
+    // Simulate authentication - show loading then navigate
+    navigation.navigate('Loading');
+    // After loading, navigate to SoftWelcome
+    setTimeout(() => {
+      navigation.navigate('SoftWelcome');
+    }, 2000);
+  }, [navigation]);
 
   const handleLogin = useCallback(() => {
-    // TODO: Navigate to Login screen
+    // TODO: Navigate to Login screen (for existing users)
     console.log('Log In pressed');
     // navigation.navigate('Login');
   }, []);

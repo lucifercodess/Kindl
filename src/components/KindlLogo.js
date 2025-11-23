@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View, Platform } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Animated, { 
   useSharedValue, 
@@ -15,7 +15,7 @@ import { useTheme } from '../theme/theme';
  * KindlLogo - Animated logo component with heartbeat animation
  * Optimized with React.memo and useCallback
  */
-const KindlLogo = React.memo(({ style }) => {
+const KindlLogoComponent = ({ style }) => {
   const theme = useTheme();
   const logoRef = useRef(null);
   const scale = useSharedValue(1);
@@ -81,7 +81,7 @@ const KindlLogo = React.memo(({ style }) => {
     return () => clearTimeout(timer);
   }, [startHeartbeat]);
 
-  const animatedKStyle = useAnimatedStyle(() => {
+  const animatedTextStyle = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scale.value }],
     };
@@ -90,7 +90,7 @@ const KindlLogo = React.memo(({ style }) => {
   return (
     <Animatable.View ref={logoRef} style={style}>
       <View style={styles.logoContainer}>
-        <Animated.View style={[styles.kContainer, animatedKStyle]}>
+        <Animated.View style={[styles.kContainer, animatedTextStyle]}>
           <Text style={[styles.cursiveK, { color: theme.colors.textPrimary }]}>
             K
           </Text>
@@ -101,9 +101,9 @@ const KindlLogo = React.memo(({ style }) => {
       </View>
     </Animatable.View>
   );
-});
+};
 
-KindlLogo.displayName = 'KindlLogo';
+KindlLogoComponent.displayName = 'KindlLogo';
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -114,14 +114,14 @@ const styles = StyleSheet.create({
   kContainer: {
     marginRight: -6,
     transform: [{ rotate: '-8deg' }],
-    // Initial scale will be animated
+    // Only the K will animate with heartbeat
   },
   cursiveK: {
     fontSize: 100,
     fontStyle: 'italic',
     fontWeight: '300',
     lineHeight: 100,
-    // Create more cursive-like appearance
+    // Cursive K - elegant and flowing
     // The heartbeat animation will make it "beat" like a heart
   },
   restOfText: {
@@ -129,8 +129,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: -1,
     lineHeight: 64,
+    // Rest of the text stays static, no animation
   },
 });
+
+const KindlLogo = React.memo(KindlLogoComponent);
 
 export default KindlLogo;
 
