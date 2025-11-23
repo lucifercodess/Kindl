@@ -1,44 +1,43 @@
-# Dating App Client
+# Kindl
 
-A React Native dating app built with Expo and JavaScript.
+A React Native dating app built with Expo (frontend) and a Go backend API.
 
-## 🚀 Getting Started
+## 🚀 Apps
 
-### Prerequisites
+### Frontend (`frontend/`)
 
-- Node.js (v14 or higher)
+#### Prerequisites
+
+- Node.js (v18 or higher)
 - npm or yarn
 - Expo CLI (optional, but recommended)
-- iOS Simulator (for Mac) or Android Emulator / Physical device
+- iOS Simulator (for Mac) or Android Emulator / physical device
 
-### Installation
+#### Install & run
 
-1. Install dependencies:
 ```bash
+cd frontend
 npm install
-```
-
-2. Start the development server:
-```bash
 npm start
 ```
 
-This will open the Expo DevTools in your browser. From there you can:
+From Expo DevTools you can:
 - Press `i` to open in iOS Simulator
 - Press `a` to open in Android Emulator
-- Scan the QR code with Expo Go app on your physical device
+- Scan the QR code with Expo Go on your device
 
-### Running on Different Platforms
+Common scripts (run inside `frontend/`):
 
-- **iOS Simulator**: `npm run ios` or press `i` in Expo DevTools
-- **Android Emulator**: `npm run android` or press `a` in Expo DevTools
-- **Expo Go**: Scan the QR code with the Expo Go app on your phone
+- **iOS Simulator**: `npm run ios`
+- **Android Emulator**: `npm run android`
 - **Web**: `npm run web` (limited React Native support)
 
-## 📁 Project Structure
+#### Frontend structure
 
 ```
-dating-app-client/
+frontend/
+├── App.js
+├── app.json
 ├── src/
 │   ├── components/      # Reusable UI components
 │   ├── screens/         # Screen components
@@ -47,13 +46,31 @@ dating-app-client/
 │   ├── hooks/           # Custom React hooks
 │   ├── utils/           # Utility functions and mock services
 │   └── assets/          # Images, fonts, etc.
-├── App.js               # Main app entry point
 └── package.json
 ```
 
+### Backend (`backend/`)
+
+The backend is a Go HTTP API (to be expanded with auth, profiles, feed, chat, and blind dating).
+
+#### Prerequisites
+
+- Go 1.21 or higher
+
+#### Run the API
+
+```bash
+cd backend
+go run ./cmd/api
+```
+
+This starts the server on `http://localhost:8080` with a basic health endpoint:
+
+- `GET /health` → `{"status":"ok"}`
+
 ## 🎨 Global Theme
 
-The app uses a black and white theme system located in `/src/theme/theme.js`.
+The app uses a black and white theme system located in `/frontend/src/theme/theme.js`.
 
 ### Usage
 
@@ -80,12 +97,12 @@ const MyComponent = () => {
 - **Radius**: Object with `sm`, `md`, `lg`, `xl`
 - **Typography**: `title`, `subtitle`, `button` styles
 
-All components are wrapped in a `ThemeProvider` in `App.js`.
+All components are wrapped in a `ThemeProvider` in `frontend/App.js`.
 
 ## 📱 Adding New Screens
 
-1. Create a new screen component in `/src/screens/YourScreen.js`
-2. Add it to the stack navigator in `/src/navigation/AppNavigator.js`:
+1. Create a new screen component in `frontend/src/screens/YourScreen.js`
+2. Add it to the stack navigator in `frontend/src/navigation/AppNavigator.js`:
 
 ```javascript
 import YourScreen from '../screens/YourScreen';
@@ -102,11 +119,11 @@ navigation.navigate('YourScreen');
 
 ## 🔌 API Integration
 
-Currently, the app uses mock services located in `/src/utils/mock.js`. These will be replaced with actual API calls later.
+Currently, the app uses mock services located in `frontend/src/utils/mock.js`. These will be replaced with actual API calls later.
 
 To integrate real APIs:
 
-1. Create API service files in `/src/utils/` or `/src/services/`
+1. Create API service files in `frontend/src/utils/` or `frontend/src/services/`
 2. Replace mock functions with actual fetch/axios calls
 3. Update environment variables in `.env` (copy from `.env.example`)
 
