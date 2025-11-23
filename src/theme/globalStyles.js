@@ -1,10 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, spacing, radius, typography } from './theme';
 
-/**
- * Global Styles - Hinge-inspired black & white design system
- * Use these styles across all screens for consistency
- */
 
 export const globalStyles = StyleSheet.create({
   // ==================== CONTAINERS ====================
