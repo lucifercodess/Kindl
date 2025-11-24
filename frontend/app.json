@@ -2,30 +2,23 @@
   "expo": {
     "name": "dating-app-client",
     "slug": "dating-app-client",
+    "scheme": "com.googleusercontent.apps.456429566494-jhreqglhq6hiamg74iiv2h40r26opn88",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.kindl.app",
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+      "package": "com.kindl.app"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "web": {},
+    "plugins": [
+      "expo-web-browser"
+    ]
   }
 }
-
