@@ -31,6 +31,11 @@ local.properties
 *.keystore
 !debug.keystore
 
+# Nested React Native projects (frontend/)
+# Ignore generated native projects entirely
+frontend/android/
+frontend/ios/
+
 # node.js
 node_modules/
 npm-debug.log
@@ -47,6 +52,7 @@ yarn-error.log
 
 # CocoaPods
 /ios/Pods/
+**/Pods/
 
 # Expo
 .expo/
@@ -61,4 +67,5 @@ web-build/
 # Misc
 *.log
 *.pem
+*.swp
 
