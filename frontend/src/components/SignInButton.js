@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { useTheme } from '../theme/theme';
 import globalStyles from '../theme/globalStyles';
+import { hapticButtonPress } from '../utils/haptics';
 
 /**
  * SignInButton - Optimized button component for sign-in actions
@@ -49,10 +50,18 @@ const SignInButton = React.memo(({
     [icon]
   );
 
+  const handlePress = () => {
+    // Premium haptic feedback
+    hapticButtonPress();
+    if (onPress) {
+      onPress();
+    }
+  };
+
   return (
     <TouchableOpacity
       style={buttonStyle}
-      onPress={onPress}
+      onPress={handlePress}
       activeOpacity={0.7}
       accessibilityRole="button"
       accessibilityLabel={title}

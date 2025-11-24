@@ -35,21 +35,16 @@ export const useLaunchScreen = () => {
   }, [navigation]);
 
   const handlePhoneSignIn = useCallback(() => {
-    // TODO: Implement Phone Sign In
+    // Navigate to phone number entry screen
     console.log('Sign in with Phone pressed');
-    // Simulate authentication - show loading then navigate
-    navigation.navigate('Loading');
-    // After loading, navigate to SoftWelcome
-    setTimeout(() => {
-      navigation.navigate('SoftWelcome');
-    }, 2000);
+    navigation.navigate('PhoneNumber');
   }, [navigation]);
 
   const handleLogin = useCallback(() => {
-    // TODO: Navigate to Login screen (for existing users)
+    // Navigate to phone number entry screen (same flow as Continue with Phone)
     console.log('Log In pressed');
-    // navigation.navigate('Login');
-  }, []);
+    navigation.navigate('PhoneNumber');
+  }, [navigation]);
 
   return {
     handleAppleSignIn,

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-na
 import { useTheme } from '../../theme/theme';
 import globalStyles from '../../theme/globalStyles';
 import { useInterests } from './hooks/useInterests';
+import { hapticButtonPress, hapticSelection, hapticLight } from '../../utils/haptics';
 
 // Dev mode flag
 const __DEV__ = true;
@@ -34,6 +35,7 @@ const InterestsScreen = React.memo(() => {
   const maxInterests = 5;
 
   const handleToggleInterest = useCallback((interestId) => {
+    hapticSelection();
     setSelectedInterests((prev) => {
       const isSelected = prev.includes(interestId);
       if (isSelected) {
@@ -147,7 +149,14 @@ const InterestsScreen = React.memo(() => {
                   opacity: canContinue ? 1 : 0.5,
                 },
               ]}
-              onPress={handleContinue}
+              onPress={() => {
+                if (canContinue) {
+                  hapticButtonPress();
+                  handleContinue();
+                } else {
+                  hapticLight();
+                }
+              }}
               disabled={!canContinue}
               activeOpacity={0.8}
             >

@@ -13,6 +13,7 @@ import Animated, {
 import { useTheme } from '../../theme/theme';
 import globalStyles from '../../theme/globalStyles';
 import { useFinalTouch } from './hooks/useFinalTouch';
+import { hapticButtonPress } from '../../utils/haptics';
 
 // Dev mode flag
 const __DEV__ = true;
@@ -139,7 +140,10 @@ const FinalTouchScreen = React.memo(() => {
                       backgroundColor: theme.colors.primaryBlack,
                     },
                   ]}
-                  onPress={handleStartMatching}
+                  onPress={() => {
+                    hapticButtonPress();
+                    handleStartMatching();
+                  }}
                   activeOpacity={0.8}
                 >
                   <Text

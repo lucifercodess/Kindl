@@ -62,3 +62,4 @@ web-build/
 *.log
 *.pem
 
+package-lock.json
