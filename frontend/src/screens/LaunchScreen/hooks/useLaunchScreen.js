@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { Platform } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import * as AuthSession from 'expo-auth-session';
@@ -27,15 +28,47 @@ export const useLaunchScreen = () => {
     ? AuthSession.makeRedirectUri({ useProxy: true })
     : undefined;
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  // Get client IDs from environment variables
+  // Expo SDK 51 should handle EXPO_PUBLIC_* variables automatically
+  // If you get expo/virtual/env errors, try: rm -rf node_modules/.cache .expo && npx expo start --clear
+  // const iosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
+  // const androidClientId = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
+  // const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
+  const iosClientId = undefined
+  const androidClientId = undefined
+  const webClientId = undefined
+  // Check if we have the required client ID for the current platform
+  const hasRequiredClientId = Platform.OS === 'ios' 
+    ? !!iosClientId 
+    : Platform.OS === 'android' 
+    ? !!androidClientId 
+    : !!webClientId;
+
+  // Build the config object with only defined client IDs
+  const googleAuthConfig = {
     // Web client for browser-based auth (optional for now).
-    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-    // Native clients for dev/production builds.
-    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
-    androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
+    ...(webClientId && { webClientId }),
+    // Native clients for dev/production builds - only include if defined
+    ...(iosClientId && { iosClientId }),
+    ...(androidClientId && { androidClientId }),
     // Use default responseType ("code") for native OAuth clients
     redirectUri,
-  });
+  };
+
+  // If we don't have the required client ID for the platform, provide a placeholder
+  // This prevents the hook from throwing an error, but Google auth won't work
+  if (!hasRequiredClientId) {
+    if (Platform.OS === 'ios') {
+      googleAuthConfig.iosClientId = 'placeholder-client-id-not-configured';
+    } else if (Platform.OS === 'android') {
+      googleAuthConfig.androidClientId = 'placeholder-client-id-not-configured';
+    }
+  }
+
+  const [request, response, promptAsync] = Google.useAuthRequest(
+    googleAuthConfig,
+    { disabled: !hasRequiredClientId }
+  );
 
   const handleAppleSignIn = useCallback(() => {
     // TODO: Implement Apple Sign In
@@ -76,13 +109,17 @@ export const useLaunchScreen = () => {
   }, [response, navigation]);
 
   const handleGoogleSignIn = useCallback(() => {
+    if (!hasRequiredClientId) {
+      Alert.alert('Not Configured', 'Google Sign-In is not configured yet. Please use Phone Sign-In instead.');
+      return;
+    }
     if (!request) {
       Alert.alert('Error', 'Google auth is not ready yet. Please try again in a moment.');
       return;
     }
     console.log('Google auth request redirectUri:', request.redirectUri);
     promptAsync();
-  }, [request, promptAsync]);
+  }, [request, promptAsync, hasRequiredClientId]);
 
   const handlePhoneSignIn = useCallback(() => {
     // Navigate to phone number entry screen

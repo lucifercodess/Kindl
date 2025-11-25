@@ -16,9 +16,6 @@
     "android": {
       "package": "com.kindl.app"
     },
-    "web": {},
-    "plugins": [
-      "expo-web-browser"
-    ]
+    "web": {}
   }
 }
