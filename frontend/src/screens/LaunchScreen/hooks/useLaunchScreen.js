@@ -28,15 +28,11 @@ export const useLaunchScreen = () => {
     ? AuthSession.makeRedirectUri({ useProxy: true })
     : undefined;
 
-  // Get client IDs from environment variables
-  // Expo SDK 51 should handle EXPO_PUBLIC_* variables automatically
-  // If you get expo/virtual/env errors, try: rm -rf node_modules/.cache .expo && npx expo start --clear
-  // const iosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
-  // const androidClientId = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
-  // const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
-  const iosClientId = undefined
-  const androidClientId = undefined
-  const webClientId = undefined
+  // Get client IDs from environment variables (Expo injects EXPO_PUBLIC_* at build time)
+  // If you see expo/virtual/env errors, clear caches: rm -rf node_modules/.cache .expo && npx expo start --clear
+  const iosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
+  const androidClientId = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
+  const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
   // Check if we have the required client ID for the current platform
   const hasRequiredClientId = Platform.OS === 'ios' 
     ? !!iosClientId 
