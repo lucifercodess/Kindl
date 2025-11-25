@@ -1,6 +1,9 @@
 import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
+import { Alert } from 'react-native';
+import { onboardingApi } from '../../../utils/onboardingApi';
+import { useAuth } from '../../../hooks/useAuth';
 
 /**
  * Custom hook for WhoAreYouScreen logic
@@ -14,18 +17,21 @@ import { CommonActions } from '@react-navigation/native';
  */
 export const useWhoAreYou = ({ name, gender, pronouns, birthdate }) => {
   const navigation = useNavigation();
+  const { accessToken } = useAuth();
 
-  const handleContinue = useCallback(() => {
-    // TODO: Save user data to profile/state
-    console.log('User data:', {
-      name,
-      gender,
-      pronouns: pronouns || null,
-      birthdate: birthdate ? birthdate.toISOString() : null,
-    });
-    
-    // Navigate to Step 4: Who do you want to meet?
-    navigation.navigate('WhoDoYouWantToMeet');
+  const handleContinue = useCallback(async () => {
+    if (!name || !gender || !birthdate) {
+      return;
+    }
+
+    try {
+      await onboardingApi.updateWhoAreYou({ name, gender, pronouns, birthdate }, accessToken);
+      // Navigate to Step 4: Who do you want to meet?
+      navigation.navigate('WhoDoYouWantToMeet');
+    } catch (err) {
+      console.error('Failed to save profile basics', err);
+      Alert.alert('Error', err.message || 'Unable to save your details. Please try again.');
+    }
   }, [name, gender, pronouns, birthdate, navigation]);
 
   // Dev-only: Reset to Launch screen

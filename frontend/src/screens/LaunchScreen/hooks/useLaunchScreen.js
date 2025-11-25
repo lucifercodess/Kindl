@@ -4,8 +4,8 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import * as AuthSession from 'expo-auth-session';
 import { Alert } from 'react-native';
-import { signInWithGoogleApi } from '../../../utils/authApi';
-// import { useAuth } from '../../../hooks/useAuth';
+import { signInWithGoogleCode } from '../../../utils/authApi';
+import { useAuth } from '../../../hooks/useAuth';
 
 // Ensure auth-session can properly handle redirects on web/Expo Go
 WebBrowser.maybeCompleteAuthSession();
@@ -18,7 +18,7 @@ WebBrowser.maybeCompleteAuthSession();
  */
 export const useLaunchScreen = () => {
   const navigation = useNavigation();
-  // const { signInWithApple, signInWithGoogle, signInWithPhone } = useAuth();
+  const { setAuthFromResponse } = useAuth();
 
   // For web (expo web), we still support the web client via Expo's proxy.
   const isWeb = typeof window !== 'undefined';
@@ -38,15 +38,12 @@ export const useLaunchScreen = () => {
   });
 
   const handleAppleSignIn = useCallback(() => {
-    // TODO: Implement Apple Sign In
-    console.log('Sign in with Apple pressed');
-    // Simulate authentication - show loading then navigate
-    navigation.navigate('Loading');
-    // After loading, navigate to SoftWelcome
-    setTimeout(() => {
-      navigation.navigate('SoftWelcome');
-    }, 2000);
-  }, [navigation]);
+    // Placeholder until Apple Developer account + native rebuild are ready.
+    Alert.alert(
+      'Coming soon',
+      'Sign in with Apple will be enabled closer to launch once the Apple Developer setup is complete.'
+    );
+  }, []);
 
   useEffect(() => {
     const handleResponse = async () => {
@@ -59,11 +56,11 @@ export const useLaunchScreen = () => {
         }
 
         try {
-          // For now, just confirm that Google sign-in worked end-to-end.
-          Alert.alert('Google sign-in success', `Auth code: ${code.slice(0, 12)}…`);
-
-          // TODO: send this code to your Go backend and exchange it for tokens
-          // using Google's token endpoint, then store access/refresh tokens.
+          navigation.navigate('Loading');
+          const data = await signInWithGoogleCode(code, request?.redirectUri);
+          console.log('Google sign-in backend success:', data);
+          setAuthFromResponse(data);
+          Alert.alert('Signed in with Google', `User ID: ${data?.user?.id || 'unknown'}`);
           navigation.navigate('SoftWelcome');
         } catch (err) {
           console.error('Google sign-in failed:', err);
@@ -85,14 +82,7 @@ export const useLaunchScreen = () => {
   }, [request, promptAsync]);
 
   const handlePhoneSignIn = useCallback(() => {
-    // TODO: Implement Phone Sign In
-    console.log('Sign in with Phone pressed');
-    // Simulate authentication - show loading then navigate
-    navigation.navigate('Loading');
-    // After loading, navigate to SoftWelcome
-    setTimeout(() => {
-      navigation.navigate('SoftWelcome');
-    }, 2000);
+    navigation.navigate('PhoneNumber');
   }, [navigation]);
 
   const handleLogin = useCallback(() => {
