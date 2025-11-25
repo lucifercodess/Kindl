@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { Platform } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import * as AuthSession from 'expo-auth-session';
@@ -27,15 +28,43 @@ export const useLaunchScreen = () => {
     ? AuthSession.makeRedirectUri({ useProxy: true })
     : undefined;
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  // Get client IDs from environment variables (Expo injects EXPO_PUBLIC_* at build time)
+  // If you see expo/virtual/env errors, clear caches: rm -rf node_modules/.cache .expo && npx expo start --clear
+  const iosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
+  const androidClientId = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
+  const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
+  // Check if we have the required client ID for the current platform
+  const hasRequiredClientId = Platform.OS === 'ios' 
+    ? !!iosClientId 
+    : Platform.OS === 'android' 
+    ? !!androidClientId 
+    : !!webClientId;
+
+  // Build the config object with only defined client IDs
+  const googleAuthConfig = {
     // Web client for browser-based auth (optional for now).
-    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-    // Native clients for dev/production builds.
-    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
-    androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
+    ...(webClientId && { webClientId }),
+    // Native clients for dev/production builds - only include if defined
+    ...(iosClientId && { iosClientId }),
+    ...(androidClientId && { androidClientId }),
     // Use default responseType ("code") for native OAuth clients
     redirectUri,
-  });
+  };
+
+  // If we don't have the required client ID for the platform, provide a placeholder
+  // This prevents the hook from throwing an error, but Google auth won't work
+  if (!hasRequiredClientId) {
+    if (Platform.OS === 'ios') {
+      googleAuthConfig.iosClientId = 'placeholder-client-id-not-configured';
+    } else if (Platform.OS === 'android') {
+      googleAuthConfig.androidClientId = 'placeholder-client-id-not-configured';
+    }
+  }
+
+  const [request, response, promptAsync] = Google.useAuthRequest(
+    googleAuthConfig,
+    { disabled: !hasRequiredClientId }
+  );
 
   const handleAppleSignIn = useCallback(() => {
     // Placeholder until Apple Developer account + native rebuild are ready.
@@ -73,23 +102,29 @@ export const useLaunchScreen = () => {
   }, [response, navigation]);
 
   const handleGoogleSignIn = useCallback(() => {
+    if (!hasRequiredClientId) {
+      Alert.alert('Not Configured', 'Google Sign-In is not configured yet. Please use Phone Sign-In instead.');
+      return;
+    }
     if (!request) {
       Alert.alert('Error', 'Google auth is not ready yet. Please try again in a moment.');
       return;
     }
     console.log('Google auth request redirectUri:', request.redirectUri);
     promptAsync();
-  }, [request, promptAsync]);
+  }, [request, promptAsync, hasRequiredClientId]);
 
   const handlePhoneSignIn = useCallback(() => {
+    // Navigate to phone number entry screen
+    console.log('Sign in with Phone pressed');
     navigation.navigate('PhoneNumber');
   }, [navigation]);
 
   const handleLogin = useCallback(() => {
-    // TODO: Navigate to Login screen (for existing users)
+    // Navigate to phone number entry screen (same flow as Continue with Phone)
     console.log('Log In pressed');
-    // navigation.navigate('Login');
-  }, []);
+    navigation.navigate('PhoneNumber');
+  }, [navigation]);
 
   return {
     handleAppleSignIn,

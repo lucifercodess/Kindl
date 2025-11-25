@@ -69,3 +69,4 @@ web-build/
 *.pem
 *.swp
 
+package-lock.json

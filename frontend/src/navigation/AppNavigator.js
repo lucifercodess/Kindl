@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LaunchScreen from '../screens/LaunchScreen';
 import LoadingScreen from '../components/LoadingScreen';
+import PhoneNumberScreen from '../screens/PhoneNumberScreen';
+import OTPScreen from '../screens/OTPScreen';
 import SoftWelcomeScreen from '../screens/SoftWelcomeScreen';
 import WhatBringsYouScreen from '../screens/WhatBringsYouScreen';
 import WhoAreYouScreen from '../screens/WhoAreYouScreen';
@@ -14,7 +16,9 @@ import InterestsScreen from '../screens/InterestsScreen';
 import FinalTouchScreen from '../screens/FinalTouchScreen';
 import PhoneNumberScreen from '../screens/PhoneNumberScreen';
 import PhoneOtpScreen from '../screens/PhoneOtpScreen';
+import MainAppScreen from '../screens/MainAppScreen';
 import AnimatedTransition from '../components/AnimatedTransition';
+import DatingPreferencesScreen from '../screens/DatingPreferencesScreen';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +66,22 @@ const AppNavigator = () => {
           options={{
             gestureEnabled: false,
             animationEnabled: false,
+          }}
+        />
+        <Stack.Screen 
+          name="PhoneNumber" 
+          component={PhoneNumberScreen}
+          options={{
+            freezeOnBlur: true,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen 
+          name="OTP" 
+          component={OTPScreen}
+          options={{
+            freezeOnBlur: true,
+            gestureEnabled: true,
           }}
         />
         <Stack.Screen 
@@ -149,6 +169,22 @@ const AppNavigator = () => {
           options={{
             freezeOnBlur: true,
             gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen 
+          name="MainApp" 
+          component={MainAppScreen}
+          options={{
+            freezeOnBlur: true,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen 
+          name="DatingPreferences" 
+          component={DatingPreferencesScreen}
+          options={{
+            freezeOnBlur: true,
+            gestureEnabled: true,
           }}
         />
       </Stack.Navigator>

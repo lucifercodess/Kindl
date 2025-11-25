@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } fr
 import { useTheme } from '../../theme/theme';
 import globalStyles from '../../theme/globalStyles';
 import { useHowDoYouConnect } from './hooks/useHowDoYouConnect';
+import { hapticButtonPress, hapticSelection, hapticLight } from '../../utils/haptics';
 
 // Dev mode flag
 const __DEV__ = true;
@@ -27,6 +28,7 @@ const HowDoYouConnectScreen = React.memo(() => {
   ], []);
 
   const handleSelectOption = useCallback((optionId) => {
+    hapticSelection();
     setSelectedOption(optionId);
   }, []);
 
@@ -94,7 +96,14 @@ const HowDoYouConnectScreen = React.memo(() => {
                   opacity: selectedOption ? 1 : 0.5,
                 },
               ]}
-              onPress={handleContinue}
+              onPress={() => {
+                if (selectedOption) {
+                  hapticButtonPress();
+                  handleContinue();
+                } else {
+                  hapticLight();
+                }
+              }}
               disabled={!selectedOption}
               activeOpacity={0.8}
             >

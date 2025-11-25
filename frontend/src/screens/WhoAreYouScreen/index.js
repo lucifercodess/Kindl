@@ -5,6 +5,7 @@ import globalStyles from '../../theme/globalStyles';
 import { useWhoAreYou } from './hooks/useWhoAreYou';
 import PronounsPicker from '../../components/PronounsPicker';
 import DatePickerModal from '../../components/DatePickerModal';
+import { hapticButtonPress, hapticSelection, hapticLight } from '../../utils/haptics';
 
 // Dev mode flag
 const __DEV__ = true;
@@ -35,6 +36,7 @@ const WhoAreYouScreen = React.memo(() => {
   ], []);
 
   const handleSelectGender = useCallback((genderId) => {
+    hapticSelection();
     setGender(genderId);
   }, []);
 
@@ -159,7 +161,14 @@ const WhoAreYouScreen = React.memo(() => {
                   opacity: isFormValid ? 1 : 0.5,
                 },
               ]}
-              onPress={handleContinue}
+              onPress={() => {
+                if (isFormValid) {
+                  hapticButtonPress();
+                  handleContinue();
+                } else {
+                  hapticLight();
+                }
+              }}
               disabled={!isFormValid}
               activeOpacity={0.8}
             >

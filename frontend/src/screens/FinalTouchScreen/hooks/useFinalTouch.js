@@ -11,18 +11,16 @@ export const useFinalTouch = () => {
   const navigation = useNavigation();
 
   const handleStartMatching = useCallback(() => {
-    // TODO: Complete onboarding and navigate to main app
+    // Complete onboarding and navigate to main app
     console.log('Starting matching - onboarding complete!');
     
-    // TODO: Navigate to main app/home screen
-    // navigation.navigate('Home');
-    // or
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 0,
-    //     routes: [{ name: 'Home' }],
-    //   })
-    // );
+    // Navigate to main app - reset navigation stack so user can't go back
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'MainApp' }],
+      })
+    );
   }, [navigation]);
 
   // Dev-only: Reset to Launch screen

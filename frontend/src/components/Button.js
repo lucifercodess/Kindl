@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useTheme } from '../theme/theme';
+import { hapticButtonPress } from '../utils/haptics';
 
 const Button = ({ 
   title, 
@@ -39,6 +40,9 @@ const Button = ({
 
   const handlePress = () => {
     if (!disabled && !loading && onPress) {
+      // Premium haptic feedback
+      hapticButtonPress();
+      
       // Trigger animation on press
       if (animatableRef.current) {
         animatableRef.current.pulse(200);
