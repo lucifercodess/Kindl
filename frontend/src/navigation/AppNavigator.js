@@ -15,6 +15,7 @@ import LifestyleBasicsScreen from '../screens/LifestyleBasicsScreen';
 import InterestsScreen from '../screens/InterestsScreen';
 import FinalTouchScreen from '../screens/FinalTouchScreen';
 import MainAppScreen from '../screens/MainAppScreen';
+import ConversationScreen from '../screens/ConversationScreen';
 import AnimatedTransition from '../components/AnimatedTransition';
 import DatingPreferencesScreen from '../screens/DatingPreferencesScreen';
 
@@ -161,6 +162,14 @@ const AppNavigator = () => {
           options={{
             freezeOnBlur: true,
             gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="Conversation"
+          component={ConversationScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
           }}
         />
         <Stack.Screen 
