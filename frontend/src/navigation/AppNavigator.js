@@ -14,6 +14,8 @@ import HowDoYouConnectScreen from '../screens/HowDoYouConnectScreen';
 import LifestyleBasicsScreen from '../screens/LifestyleBasicsScreen';
 import InterestsScreen from '../screens/InterestsScreen';
 import FinalTouchScreen from '../screens/FinalTouchScreen';
+import PhoneNumberScreen from '../screens/PhoneNumberScreen';
+import PhoneOtpScreen from '../screens/PhoneOtpScreen';
 import MainAppScreen from '../screens/MainAppScreen';
 import ConversationScreen from '../screens/ConversationScreen';
 import AnimatedTransition from '../components/AnimatedTransition';
@@ -137,6 +139,20 @@ const AppNavigator = () => {
         <Stack.Screen 
           name="Interests" 
           component={InterestsScreen}
+          options={{
+            freezeOnBlur: true,
+          }}
+        />
+        <Stack.Screen 
+          name="PhoneNumber" 
+          component={PhoneNumberScreen}
+          options={{
+            freezeOnBlur: true,
+          }}
+        />
+        <Stack.Screen 
+          name="PhoneOtp" 
+          component={PhoneOtpScreen}
           options={{
             freezeOnBlur: true,
           }}
