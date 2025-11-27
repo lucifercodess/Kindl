@@ -5,7 +5,7 @@ import CustomTabBar from '../components/CustomTabBar';
 
 // Screens
 import ProfileScreen from '../screens/ProfileScreen';
-import RoomsScreen from '../screens/RoomsScreen';
+import IntentFeedsScreen from '../screens/IntentFeedsScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LikesScreen from '../screens/LikesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
@@ -30,10 +30,10 @@ const MainTabNavigator = () => {
         component={ProfileScreen}
       />
 
-      {/* 2. Rooms (Intent Rooms) */}
+      {/* 2. Rooms (Intent Feeds) */}
       <Tab.Screen
         name="Rooms"
-        component={RoomsScreen}
+        component={IntentFeedsScreen}
       />
 
       {/* 3. Home (K Logo - Center) */}

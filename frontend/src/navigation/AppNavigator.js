@@ -20,6 +20,8 @@ import MainAppScreen from '../screens/MainAppScreen';
 import ConversationScreen from '../screens/ConversationScreen';
 import AnimatedTransition from '../components/AnimatedTransition';
 import DatingPreferencesScreen from '../screens/DatingPreferencesScreen';
+import IntentFeedDetailScreen from '../screens/IntentFeedDetailScreen';
+import BlindDatingScreen from '../screens/BlindDatingScreen';
 
 const Stack = createStackNavigator();
 
@@ -193,6 +195,22 @@ const AppNavigator = () => {
           component={DatingPreferencesScreen}
           options={{
             freezeOnBlur: true,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="IntentFeedDetail"
+          component={IntentFeedDetailScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="BlindDating"
+          component={BlindDatingScreen}
+          options={{
+            headerShown: false,
             gestureEnabled: true,
           }}
         />
