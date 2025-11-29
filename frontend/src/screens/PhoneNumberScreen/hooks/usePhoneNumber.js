@@ -1,46 +1,67 @@
 import { useState, useCallback } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 import { requestPhoneOtp } from '../../../utils/authApi';
 
-export const usePhoneNumber = () => {
+// Dev mode flag
+const __DEV__ = true;
+
+/**
+ * Custom hook for PhoneNumberScreen logic
+ * 
+ * @param {string} phoneNumber - The phone number (10 digits)
+ * @param {string} countryCode - The country code (e.g., '+91')
+ * @param {boolean} isLogin - Whether this is a login flow (true) or sign up flow (false)
+ * @returns {Object} Handlers for PhoneNumberScreen
+ */
+export const usePhoneNumber = (phoneNumber, countryCode, isLogin = false) => {
   const navigation = useNavigation();
-  const [phone, setPhone] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = useCallback(async () => {
-    if (!phone.trim()) {
-      Alert.alert('Enter phone', 'Please enter your mobile number.');
+  const handleContinue = useCallback(async () => {
+    if (!phoneNumber || phoneNumber.length !== 10) {
+      Alert.alert('Enter phone', 'Please enter a valid 10-digit mobile number.');
       return;
     }
 
     try {
       setSubmitting(true);
-      const data = await requestPhoneOtp(phone.trim());
+      // Combine country code and phone number
+      const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+      const data = await requestPhoneOtp(fullPhoneNumber);
 
       if (__DEV__ && data?.debugCode) {
         Alert.alert(
           'Dev code',
-          `OTP for ${phone.trim()} is: ${data.debugCode}\n\n(In production this will be sent via SMS.)`
+          `OTP for ${fullPhoneNumber} is: ${data.debugCode}\n\n(In production this will be sent via SMS.)`
         );
       } else {
         Alert.alert('Code sent', 'We sent a 6-digit code to your phone.');
       }
 
-      navigation.navigate('PhoneOtp', { phone: phone.trim() });
+      navigation.navigate('PhoneOtp', { phone: fullPhoneNumber, isLogin });
     } catch (err) {
       console.error('Request OTP failed', err);
       Alert.alert('Error', err.message || 'Unable to send code. Please try again.');
     } finally {
       setSubmitting(false);
     }
-  }, [navigation, phone]);
+  }, [phoneNumber, countryCode, isLogin, navigation]);
+
+  // Dev-only: Reset to Launch screen
+  const handleResetToLaunch = useCallback(() => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Launch' }],
+      })
+    );
+  }, [navigation]);
 
   return {
-    phone,
-    setPhone,
-    submitting,
-    handleSubmit,
+    handleContinue,
+    handleResetToLaunch,
   };
 }
 

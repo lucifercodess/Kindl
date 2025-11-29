@@ -115,15 +115,15 @@ export const useLaunchScreen = () => {
   }, [request, promptAsync, hasRequiredClientId]);
 
   const handlePhoneSignIn = useCallback(() => {
-    // Navigate to phone number entry screen
+    // Navigate to phone number entry screen (for sign up)
     console.log('Sign in with Phone pressed');
-    navigation.navigate('PhoneNumber');
+    navigation.navigate('PhoneNumber', { isLogin: false });
   }, [navigation]);
 
   const handleLogin = useCallback(() => {
-    // Navigate to phone number entry screen (same flow as Continue with Phone)
+    // Navigate to phone number entry screen (for login - will go directly to MainApp after OTP)
     console.log('Log In pressed');
-    navigation.navigate('PhoneNumber');
+    navigation.navigate('PhoneNumber', { isLogin: true });
   }, [navigation]);
 
   return {

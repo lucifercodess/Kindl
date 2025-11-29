@@ -14,7 +14,6 @@ import HowDoYouConnectScreen from '../screens/HowDoYouConnectScreen';
 import LifestyleBasicsScreen from '../screens/LifestyleBasicsScreen';
 import InterestsScreen from '../screens/InterestsScreen';
 import FinalTouchScreen from '../screens/FinalTouchScreen';
-import PhoneNumberScreen from '../screens/PhoneNumberScreen';
 import PhoneOtpScreen from '../screens/PhoneOtpScreen';
 import MainAppScreen from '../screens/MainAppScreen';
 import ConversationScreen from '../screens/ConversationScreen';
@@ -22,6 +21,13 @@ import AnimatedTransition from '../components/AnimatedTransition';
 import DatingPreferencesScreen from '../screens/DatingPreferencesScreen';
 import IntentFeedDetailScreen from '../screens/IntentFeedDetailScreen';
 import BlindDatingScreen from '../screens/BlindDatingScreen';
+import ProfileCraftingScreen from '../screens/ProfileCraftingScreen';
+import PromptsThemeScreen from '../screens/PromptsThemeScreen';
+import PromptEditorScreen from '../screens/PromptEditorScreen';
+import VoicePromptScreen from '../screens/VoicePromptScreen';
+import VideoPromptScreen from '../screens/VideoPromptScreen';
+import PollPromptScreen from '../screens/PollPromptScreen';
+import ProfileFieldEditorScreen from '../screens/ProfileFieldEditorScreen';
 
 const Stack = createStackNavigator();
 
@@ -144,13 +150,6 @@ const AppNavigator = () => {
           }}
         />
         <Stack.Screen 
-          name="PhoneNumber" 
-          component={PhoneNumberScreen}
-          options={{
-            freezeOnBlur: true,
-          }}
-        />
-        <Stack.Screen 
           name="PhoneOtp" 
           component={PhoneOtpScreen}
           options={{
@@ -209,6 +208,62 @@ const AppNavigator = () => {
         <Stack.Screen
           name="BlindDating"
           component={BlindDatingScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileCrafting"
+          component={ProfileCraftingScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="PromptsTheme"
+          component={PromptsThemeScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="PromptEditor"
+          component={PromptEditorScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="VoicePrompt"
+          component={VoicePromptScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="VideoPrompt"
+          component={VideoPromptScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="PollPrompt"
+          component={PollPromptScreen}
+          options={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileFieldEditor"
+          component={ProfileFieldEditorScreen}
           options={{
             headerShown: false,
             gestureEnabled: true,

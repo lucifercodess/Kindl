@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import { useTheme } from '../../theme/theme';
 import globalStyles from '../../theme/globalStyles';
 import { usePhoneNumber } from './hooks/usePhoneNumber';
@@ -14,10 +15,12 @@ const __DEV__ = true;
  */
 const PhoneNumberScreen = React.memo(() => {
   const theme = useTheme();
+  const route = useRoute();
+  const isLogin = route.params?.isLogin || false;
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
 
-  const { handleContinue, handleResetToLaunch } = usePhoneNumber(phoneNumber, countryCode);
+  const { handleContinue, handleResetToLaunch } = usePhoneNumber(phoneNumber, countryCode, isLogin);
 
   const isFormValid = useMemo(() => {
     // Basic validation: exactly 10 digits (Indian format)
